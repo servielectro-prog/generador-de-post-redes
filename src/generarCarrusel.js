@@ -3,6 +3,7 @@ const path = require("node:path");
 const config = require("./config");
 const kieClient = require("./kieClient");
 const githubHost = require("./githubHost");
+const logoOverlay = require("./logoOverlay");
 
 function parseArgs(argv) {
   const args = {};
@@ -63,6 +64,8 @@ async function main() {
     `${slugify(briefing.tema)}-${timestamp}`
   );
 
+  const aplicarLogo = briefing.logo !== false;
+
   const rutasGeneradas = [];
   for (let i = 0; i < briefing.slides.length; i++) {
     const slide = briefing.slides[i];
@@ -75,14 +78,20 @@ async function main() {
     }
 
     const filesUrl = [...referenciasGlobales, ...referenciasSlide].slice(0, 5);
-    const destino = path.join(carpetaSalida, `slide${numero}.png`);
+    const destinoVertical = path.join(carpetaSalida, `slide${numero}-2x3.png`);
+    const destinoCuadrado = path.join(carpetaSalida, `slide${numero}-1x1.png`);
 
-    await kieClient.generarImagen(
-      { prompt: slide.prompt, filesUrl, size: briefing.size || "1:1" },
-      destino
-    );
-    console.log(`  Listo: ${destino}`);
-    rutasGeneradas.push(destino);
+    await kieClient.generarImagen({ prompt: slide.prompt, filesUrl, size: "2:3" }, destinoVertical);
+    await logoOverlay.recortarCuadrado(destinoVertical, destinoCuadrado);
+
+    if (aplicarLogo) {
+      await logoOverlay.aplicarLogo(destinoVertical);
+      await logoOverlay.aplicarLogo(destinoCuadrado);
+    }
+
+    console.log(`  Listo: ${destinoVertical}`);
+    console.log(`  Listo: ${destinoCuadrado}`);
+    rutasGeneradas.push(destinoVertical, destinoCuadrado);
   }
 
   console.log("\nCarrusel generado. Imagenes:");

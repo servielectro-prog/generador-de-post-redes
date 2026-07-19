@@ -1,13 +1,12 @@
 {
-  "tema": "Promo de verano",
-  "size": "1:1",
+  "tema": "Alivio del dolor de espalda",
   "referencias": [],
   "slides": [
     {
-      "prompt": "Ilustracion plana minimalista de una playa al atardecer, colores calidos, estilo flat design, sin texto"
+      "prompt": "Fotografia realista de una sesion de kinesiologia en una consulta moderna y luminosa: un kinesiologo tratando la espalda de un paciente sobre una camilla, luz natural calida, ambiente profesional pero cercano, acentos de color azul marino y magenta en la decoracion (cortina o pared), composicion centrada verticalmente, sin texto en la imagen"
     },
     {
-      "prompt": "Ilustracion plana minimalista de un coctel tropical sobre una mesa, mismos colores calidos y estilo flat design que la imagen anterior, sin texto"
+      "prompt": "Fotografia realista de una persona sonriente estirando la espalda con alivio en un espacio de bienestar luminoso, tonos calidos, mismo ambiente moderno y acentos en azul marino y magenta que la imagen anterior, composicion centrada verticalmente, sin texto en la imagen"
     }
   ]
 }

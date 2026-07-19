@@ -9,5 +9,8 @@
   },
   "scripts": {
     "generar": "node src/generarCarrusel.js"
+  },
+  "dependencies": {
+    "sharp": "^0.35.3"
   }
 }

@@ -4,7 +4,7 @@ const config = require("./config");
 
 const BASE_URL = "https://api.kie.ai/api/v1/gpt4o-image";
 const POLL_INTERVAL_MS = 4000;
-const POLL_TIMEOUT_MS = 5 * 60 * 1000;
+const POLL_TIMEOUT_MS = 15 * 60 * 1000;
 
 async function kieFetch(url, options = {}) {
   const res = await fetch(url, {
@@ -56,7 +56,8 @@ function sleep(ms) {
  * @returns {Promise<string[]>}
  */
 async function esperarResultado(taskId) {
-  const deadline = Date.now() + POLL_TIMEOUT_MS;
+  const inicio = Date.now();
+  const deadline = inicio + POLL_TIMEOUT_MS;
   while (Date.now() < deadline) {
     const data = await consultarTarea(taskId);
     if (data.status === "SUCCESS") {
@@ -65,6 +66,9 @@ async function esperarResultado(taskId) {
     if (data.status === "CREATE_TASK_FAILED" || data.status === "GENERATE_FAILED") {
       throw new Error(`La tarea ${taskId} fallo: ${data.errorMessage || data.status}`);
     }
+    console.log(
+      `  ...esperando (${Math.round((Date.now() - inicio) / 1000)}s, estado: ${data.status})`
+    );
     await sleep(POLL_INTERVAL_MS);
   }
   throw new Error(`Se agoto el tiempo de espera para la tarea ${taskId}`);

@@ -2,15 +2,17 @@
   "name": "generador-de-post-redes",
   "version": "1.0.0",
   "private": true,
-  "description": "Generador de imagenes para carruseles de redes sociales usando la API de kie.ai",
+  "description": "Generador de posts para redes sociales de Kinenivel1: fotos via kie.ai e infografias renderizadas en HTML",
   "type": "commonjs",
   "engines": {
     "node": ">=20.6.0"
   },
   "scripts": {
-    "generar": "node src/generarCarrusel.js"
+    "generar": "node src/generarCarrusel.js",
+    "generar-infografia": "node src/generarInfografia.js"
   },
   "dependencies": {
+    "puppeteer-core": "^25.3.0",
     "sharp": "^0.35.3"
   }
 }

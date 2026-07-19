@@ -8,13 +8,20 @@ Kinenivel1 — clínica de kinesiología en Santiago de Chile. Terapias para dol
 
 Profesional pero cercano. Transmitir alivio, confianza y bienestar — no una estética clínica fría o de stock genérico. Las imágenes deben sentirse humanas y cálidas, no como una sala de hospital impersonal.
 
-## Estilo visual
+## Estilo visual — fotos (kie.ai)
 
 - **Fotorrealista.** Nada de ilustración plana ni 3D estilizado.
 - Luz natural o cálida, ambientes modernos y cuidados (consulta de kinesiología, espacios de movimiento/bienestar, cuerpo en movimiento o en alivio del dolor).
 - Los colores de marca aparecen como acentos dentro de la escena (ropa, elementos de utilería, luces, detalles del ambiente) — no como bloques de color planos superpuestos.
-- **No pedirle a kie.ai que renderice texto dentro de la imagen.** Los modelos generativos no lo hacen de forma confiable (letras deformadas, mal escritas). El texto del post va aparte, como caption/copy que escribe el usuario, no quemado en la imagen.
+- **No pedirle a kie.ai que renderice texto dentro de la imagen.** Los modelos generativos no lo hacen de forma confiable (letras deformadas, mal escritas). Cualquier post que necesite texto (tips, listas, datos) se arma como infografía HTML, no como foto — ver más abajo.
 - No pedirle a kie.ai que dibuje el logo — se superpone después el archivo real (ver más abajo).
+
+## Estilo visual — infografías (HTML/Chrome)
+
+- Fondo claro (`#EAF1F8`), tarjetas blancas para bloques de contenido, barra de acento magenta bajo cada título.
+- Títulos en Lora bold navy; cuerpo en Work Sans.
+- Iconografía simple y propia (círculos numerados, checks, anillos concéntricos que hacen eco del logo) en vez de intentar imitar íconos de referencias externas.
+- Si el usuario trae una infografía de referencia (ej. de la competencia), usarla solo como inspiración de contenido/estructura — nunca clonar el layout literal, y siempre curar/resumir para que entre cómodo en un carrusel de Instagram.
 
 ## Paleta de marca
 

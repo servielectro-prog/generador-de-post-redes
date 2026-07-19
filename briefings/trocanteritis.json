@@ -1,0 +1,45 @@
+{
+  "tema": "Prevencion trocanteritis",
+  "slides": [
+    {
+      "layout": "portada",
+      "titulo": "Prevención de la Trocanteritis",
+      "subtitulo": "Protegé tu cadera, mejorá tu calidad de vida",
+      "texto": "Es la inflamación de los tendones y bursas del glúteo en la parte lateral de la cadera. Con hábitos simples y ejercicio terapéutico se puede prevenir.",
+      "zonaLabel": "Zona del trocánter mayor"
+    },
+    {
+      "layout": "lista",
+      "titulo": "Ejercicios clave para prevenir el dolor",
+      "items": [
+        {
+          "titulo": "Fortalecimiento de glúteo medio",
+          "texto": "Acostado de lado, elevá la pierna manteniendo la rodilla recta. 3x12-15."
+        },
+        {
+          "titulo": "Puente de glúteos",
+          "texto": "Boca arriba, elevá la pelvis contrayendo los glúteos. 3x12-15."
+        },
+        {
+          "titulo": "Caminata lateral con banda",
+          "texto": "Caminá de lado con una banda elástica en los tobillos. 3x10-12 pasos."
+        },
+        {
+          "titulo": "Estiramientos suaves",
+          "texto": "Glúteos y flexores de cadera, 20-30 segundos cada lado."
+        }
+      ]
+    },
+    {
+      "layout": "cta",
+      "titulo": "¿Cuándo consultar a un kinesiólogo?",
+      "items": [
+        "Dolor persistente en la parte lateral de la cadera.",
+        "Dolor al caminar, subir escaleras o levantarte de una silla.",
+        "Molestias al acostarte sobre el lado afectado.",
+        "Dolor que limita tus actividades diarias."
+      ],
+      "cta": "Agendá tu evaluación en Kinenivel1"
+    }
+  ]
+}

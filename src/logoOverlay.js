@@ -38,6 +38,21 @@ async function logoConFondoTransparente() {
     .toBuffer();
 }
 
+const LOGO_TRANSPARENTE_PATH = path.join(config.paths.branding, "logo-transparente.png");
+
+/**
+ * Genera (si hace falta) branding/logo-transparente.png y devuelve su ruta,
+ * para poder referenciarlo directo (ej. como <img src> en HTML) sin repetir
+ * el chroma key cada vez.
+ */
+async function obtenerLogoTransparentePath() {
+  if (!fs.existsSync(LOGO_TRANSPARENTE_PATH)) {
+    const buffer = await logoConFondoTransparente();
+    fs.writeFileSync(LOGO_TRANSPARENTE_PATH, buffer);
+  }
+  return LOGO_TRANSPARENTE_PATH;
+}
+
 /**
  * Superpone branding/logo.png en la esquina inferior derecha de una imagen, in-place.
  * @param {string} rutaImagen
@@ -79,4 +94,4 @@ async function recortarCuadrado(origen, destino) {
   await sharp(origen).extract({ left, top, width: lado, height: lado }).toFile(destino);
 }
 
-module.exports = { aplicarLogo, recortarCuadrado };
+module.exports = { aplicarLogo, recortarCuadrado, obtenerLogoTransparentePath };

@@ -1,0 +1,13 @@
+{
+  "tema": "Promo de verano",
+  "size": "1:1",
+  "referencias": [],
+  "slides": [
+    {
+      "prompt": "Ilustracion plana minimalista de una playa al atardecer, colores calidos, estilo flat design, sin texto"
+    },
+    {
+      "prompt": "Ilustracion plana minimalista de un coctel tropical sobre una mesa, mismos colores calidos y estilo flat design que la imagen anterior, sin texto"
+    }
+  ]
+}

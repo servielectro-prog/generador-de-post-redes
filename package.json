@@ -1,0 +1,13 @@
+{
+  "name": "generador-de-post-redes",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Generador de imagenes para carruseles de redes sociales usando la API de kie.ai",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=20.6.0"
+  },
+  "scripts": {
+    "generar": "node src/generarCarrusel.js"
+  }
+}

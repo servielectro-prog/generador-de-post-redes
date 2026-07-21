@@ -67,10 +67,11 @@ function documentoHTML(contenido) {
 </html>`;
 }
 
-function logoDataURI(logoPath) {
-  const base64 = fs.readFileSync(logoPath).toString("base64");
+function imagenDataURI(rutaImagen) {
+  const base64 = fs.readFileSync(rutaImagen).toString("base64");
   return `data:image/png;base64,${base64}`;
 }
+const logoDataURI = imagenDataURI;
 
 function headerHTML(logoPath) {
   return `
@@ -120,12 +121,17 @@ function slideLista({ titulo, items }, logoPath) {
   const filas = items
     .map(
       (item, i) => `
-      <div style="display:flex; gap:24px; align-items:flex-start; background:white; border-radius:18px; padding:24px 28px; margin-bottom:20px;">
+      <div style="display:flex; gap:24px; align-items:center; background:white; border-radius:18px; padding:24px 28px; margin-bottom:20px;">
         <div class="badge">${i + 1}</div>
-        <div>
+        <div style="flex:1;">
           <div style="font-weight:700; font-size:25px; color:${COLORES.navy};">${item.titulo}</div>
           <div style="font-size:20px; line-height:1.4; margin-top:6px;">${item.texto}</div>
         </div>
+        ${
+          item.imagen
+            ? `<img src="${imagenDataURI(item.imagen)}" style="width:120px; height:120px; border-radius:14px; object-fit:cover; flex-shrink:0;" />`
+            : ""
+        }
       </div>
     `
     )

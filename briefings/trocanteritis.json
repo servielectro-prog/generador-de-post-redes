@@ -19,15 +19,18 @@
         },
         {
           "titulo": "Puente de glúteos",
-          "texto": "Boca arriba, elevá la pelvis contrayendo los glúteos. 3x12-15."
+          "texto": "Boca arriba, elevá la pelvis contrayendo los glúteos. 3x12-15.",
+          "imagen": "resultados/fotos-trocanteritis/ejercicio2-puente-gluteos.png"
         },
         {
           "titulo": "Caminata lateral con banda",
-          "texto": "Caminá de lado con una banda elástica en los tobillos. 3x10-12 pasos."
+          "texto": "Caminá de lado con una banda elástica en los tobillos. 3x10-12 pasos.",
+          "imagen": "resultados/fotos-trocanteritis/ejercicio3-caminata-lateral.png"
         },
         {
           "titulo": "Estiramientos suaves",
-          "texto": "Glúteos y flexores de cadera, 20-30 segundos cada lado."
+          "texto": "Glúteos y flexores de cadera, 20-30 segundos cada lado.",
+          "imagen": "resultados/fotos-trocanteritis/ejercicio4-estiramiento.png"
         }
       ]
     },

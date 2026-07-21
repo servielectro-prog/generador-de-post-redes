@@ -1,4 +1,5 @@
 const fs = require("node:fs");
+const sharp = require("sharp");
 const puppeteer = require("puppeteer-core");
 
 const ANCHO = 1080;
@@ -67,16 +68,24 @@ function documentoHTML(contenido) {
 </html>`;
 }
 
-function imagenDataURI(rutaImagen) {
-  const base64 = fs.readFileSync(rutaImagen).toString("base64");
-  return `data:image/png;base64,${base64}`;
+/**
+ * Reescala (si hace falta) y codifica una imagen como data URI. Achicar
+ * antes de embeber importa: un HTML con varias fotos de kie.ai sin
+ * comprimir (~1-2MB c/u) hace que Chrome tarde/se cuelgue al cargar el
+ * documento via setContent.
+ */
+async function imagenDataURI(rutaImagen, anchoMax = 400) {
+  const buffer = await sharp(rutaImagen)
+    .resize({ width: anchoMax, withoutEnlargement: true })
+    .png({ quality: 80 })
+    .toBuffer();
+  return `data:image/png;base64,${buffer.toString("base64")}`;
 }
-const logoDataURI = imagenDataURI;
 
-function headerHTML(logoPath) {
+async function headerHTML(logoPath) {
   return `
     <div class="header">
-      <img src="${logoDataURI(logoPath)}" />
+      <img src="${await imagenDataURI(logoPath, 200)}" />
       <span>KINENIVEL1</span>
     </div>
   `;
@@ -97,10 +106,10 @@ function checkSVG() {
   return `<svg width="16" height="16" viewBox="0 0 16 16"><path d="M2 8.5 L6 12.5 L14 3" stroke="white" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 }
 
-function slidePortada({ titulo, subtitulo, texto, zonaLabel }, logoPath) {
+async function slidePortada({ titulo, subtitulo, texto, zonaLabel }, logoPath) {
   return documentoHTML(`
     <div class="slide">
-      ${headerHTML(logoPath)}
+      ${await headerHTML(logoPath)}
       <div class="contenido">
         <div>
           <div class="barra" style="margin-bottom:26px;"></div>
@@ -117,10 +126,10 @@ function slidePortada({ titulo, subtitulo, texto, zonaLabel }, logoPath) {
   `);
 }
 
-function slideLista({ titulo, items }, logoPath) {
-  const filas = items
-    .map(
-      (item, i) => `
+async function slideLista({ titulo, items }, logoPath) {
+  const filas = (
+    await Promise.all(
+      items.map(async (item, i) => `
       <div style="display:flex; gap:24px; align-items:center; background:white; border-radius:18px; padding:24px 28px; margin-bottom:20px;">
         <div class="badge">${i + 1}</div>
         <div style="flex:1;">
@@ -129,17 +138,17 @@ function slideLista({ titulo, items }, logoPath) {
         </div>
         ${
           item.imagen
-            ? `<img src="${imagenDataURI(item.imagen)}" style="width:120px; height:120px; border-radius:14px; object-fit:cover; flex-shrink:0;" />`
+            ? `<img src="${await imagenDataURI(item.imagen, 300)}" style="width:120px; height:120px; border-radius:14px; object-fit:cover; flex-shrink:0;" />`
             : ""
         }
       </div>
-    `
+    `)
     )
-    .join("");
+  ).join("");
 
   return documentoHTML(`
     <div class="slide">
-      ${headerHTML(logoPath)}
+      ${await headerHTML(logoPath)}
       <div class="contenido">
         <div>
           <div class="barra" style="margin-bottom:26px;"></div>
@@ -151,7 +160,7 @@ function slideLista({ titulo, items }, logoPath) {
   `);
 }
 
-function slideCTA({ titulo, items, cta }, logoPath) {
+async function slideCTA({ titulo, items, cta }, logoPath) {
   const filas = items
     .map(
       (texto) => `
@@ -165,7 +174,7 @@ function slideCTA({ titulo, items, cta }, logoPath) {
 
   return documentoHTML(`
     <div class="slide">
-      ${headerHTML(logoPath)}
+      ${await headerHTML(logoPath)}
       <div class="contenido" style="padding-bottom:170px;">
         <div>
           <div class="barra" style="margin-bottom:26px;"></div>
@@ -187,7 +196,7 @@ const LAYOUTS = { portada: slidePortada, lista: slideLista, cta: slideCTA };
  * @param {string} logoPath
  * @returns {string} HTML completo del slide
  */
-function generarHTML(slide, logoPath) {
+async function generarHTML(slide, logoPath) {
   const layout = LAYOUTS[slide.layout];
   if (!layout) {
     throw new Error(`Layout desconocido: "${slide.layout}" (usar portada, lista o cta)`);
@@ -208,7 +217,11 @@ async function renderizarHTML(html, destino) {
   try {
     const page = await browser.newPage();
     await page.setViewport({ width: ANCHO, height: ALTO, deviceScaleFactor: 2 });
-    await page.setContent(html, { waitUntil: "networkidle0" });
+    // "domcontentloaded" + esperar fuentes explicitamente, en vez de
+    // "networkidle0": con paginas pesadas (varias fotos embebidas) la
+    // espera de red "en reposo" es fragil y a veces nunca dispara.
+    await page.setContent(html, { waitUntil: "domcontentloaded", timeout: 60000 });
+    await page.evaluate(() => document.fonts.ready);
     await page.screenshot({ path: destino, type: "png" });
   } finally {
     await browser.close();

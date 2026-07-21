@@ -55,11 +55,28 @@ function sleep(ms) {
  * Espera a que una tarea termine y devuelve las URLs de resultado.
  * @returns {Promise<string[]>}
  */
+const MAX_FALLOS_RED_SEGUIDOS = 5;
+
 async function esperarResultado(taskId) {
   const inicio = Date.now();
   const deadline = inicio + POLL_TIMEOUT_MS;
+  let fallosSeguidos = 0;
   while (Date.now() < deadline) {
-    const data = await consultarTarea(taskId);
+    let data;
+    try {
+      data = await consultarTarea(taskId);
+    } catch (err) {
+      fallosSeguidos++;
+      if (fallosSeguidos > MAX_FALLOS_RED_SEGUIDOS) {
+        throw new Error(
+          `Fallo de red consultando la tarea ${taskId} ${MAX_FALLOS_RED_SEGUIDOS} veces seguidas: ${err.message}`
+        );
+      }
+      console.log(`  ...fallo de red consultando la tarea (${err.message}), reintentando...`);
+      await sleep(POLL_INTERVAL_MS);
+      continue;
+    }
+    fallosSeguidos = 0;
     if (data.status === "SUCCESS") {
       return data.response.resultUrls;
     }

@@ -34,7 +34,7 @@ async function main() {
   for (let i = 0; i < briefing.slides.length; i++) {
     const numero = i + 1;
     console.log(`Renderizando slide ${numero}/${briefing.slides.length}...`);
-    const html = infografia.generarHTML(briefing.slides[i], logoPath);
+    const html = await infografia.generarHTML(briefing.slides[i], logoPath);
     const destino = path.join(carpetaSalida, `slide${numero}.png`);
     await infografia.renderizarHTML(html, destino);
     console.log(`  Listo: ${destino}`);

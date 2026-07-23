@@ -6,10 +6,10 @@ Este proyecto genera imágenes para los carruseles de Instagram y Facebook de **
 
 Genera imágenes a partir de un briefing (idea + contenido por slide). **No publica en redes**: el usuario sube los posts manualmente. El disparo es siempre manual, dentro de la conversación con Claude.
 
-Hay dos tipos de post, con pipelines distintos:
+Hay dos tipos de post:
 
 1. **Fotos** (`generarCarrusel.js`) — escenas fotorrealistas generadas con kie.ai (consulta, ejercicios en persona, ambientes).
-2. **Infografías** (`generarInfografia.js`) — piezas con texto (tips, listas de ejercicios, datos), renderizadas como HTML/CSS reales con Chrome local. **kie.ai nunca se usa para texto**: los modelos de imagen lo dibujan mal (letras deformadas). Todo el contenido con texto se arma como diseño propio.
+2. **Infografías con texto** (tips, listas de ejercicios, datos) — **también con `generarCarrusel.js` / kie.ai**, pasando el texto exacto y la paleta de marca en el prompt (probado el 2026-07-23: el modelo renderiza texto en español correctamente, salvo algún error de tilde ocasional — revisar antes de dar por bueno). Existe también un motor propio HTML/CSS (`generarInfografia.js`, renderizado con Chrome local) como alternativa si se necesita texto garantizado sin errores, edición instantánea sin gastar créditos, o layouts muy estructurados — ver `.claude/skills/generar-infografia/SKILL.md` para el detalle de cuándo usar cada camino.
 
 ## Identidad de marca
 
@@ -22,15 +22,17 @@ Ver guía completa en [branding/estilo.md](branding/estilo.md). Resumen:
 
 ## Formatos de salida
 
-- **Fotos**: cada slide se genera **una sola vez** en `2:3` (vertical) vía kie.ai, y de esa misma imagen se deriva localmente (con `sharp`) un recorte central `1:1` (cuadrado) — cubre Instagram y Facebook sin duplicar tiempo de espera ni arriesgar que ambas versiones se vean distintas entre sí. El logo se superpone en una esquina de cada imagen.
-- **Infografías**: se renderizan en `1080x1350` (4:5, tamaño recomendado de carrusel de Instagram). El logo va embebido en el header de cada slide (ya resuelto, transparente).
+- **kie.ai** (fotos e infografías): cada slide se genera **una sola vez** en `2:3` (vertical), y de esa misma imagen se deriva localmente (con `sharp`) un recorte central `1:1` (cuadrado) — cubre Instagram y Facebook sin duplicar tiempo de espera ni arriesgar que ambas versiones se vean distintas entre sí. El recorte esta sesgado hacia arriba (`anclaVertical` por defecto 0.15, no 0.5) porque las caras suelen estar cerca del borde superior. El logo se superpone en una esquina de cada imagen.
+- **Motor HTML** (alternativa): se renderiza en `1080x1350` (4:5, tamaño recomendado de carrusel de Instagram). El logo va embebido en el header de cada slide (ya resuelto, transparente).
 
 ## Comandos
 
 ```
-node src/generarCarrusel.js --briefing briefings/<archivo>.json     # fotos (kie.ai, ~5 min/slide, correr en background)
-node src/generarInfografia.js --briefing briefings/<archivo>.json   # infografias (local, rapido)
+node src/generarCarrusel.js --briefing briefings/<archivo>.json     # fotos e infografias via kie.ai, ~5 min/slide y ~6 creditos/imagen, correr en background
+node src/generarInfografia.js --briefing briefings/<archivo>.json   # motor HTML alternativo (local, rapido, gratis)
 ```
+
+Chequear saldo de créditos antes de una tanda grande: `GET https://api.kie.ai/api/v1/chat/credit` (header `Authorization: Bearer <KIE_API_KEY>`).
 
 ## Notas técnicas de las infografías
 

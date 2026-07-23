@@ -13,15 +13,19 @@ Profesional pero cercano. Transmitir alivio, confianza y bienestar — no una es
 - **Fotorrealista.** Nada de ilustración plana ni 3D estilizado.
 - Luz natural o cálida, ambientes modernos y cuidados (consulta de kinesiología, espacios de movimiento/bienestar, cuerpo en movimiento o en alivio del dolor).
 - Los colores de marca aparecen como acentos dentro de la escena (ropa, elementos de utilería, luces, detalles del ambiente) — no como bloques de color planos superpuestos.
-- **No pedirle a kie.ai que renderice texto dentro de la imagen.** Los modelos generativos no lo hacen de forma confiable (letras deformadas, mal escritas). Cualquier post que necesite texto (tips, listas, datos) se arma como infografía HTML, no como foto — ver más abajo.
 - No pedirle a kie.ai que dibuje el logo — se superpone después el archivo real (ver más abajo).
 
-## Estilo visual — infografías (HTML/Chrome)
+## Estilo visual — infografías con texto
 
-- Fondo claro (`#EAF1F8`), tarjetas blancas para bloques de contenido, barra de acento magenta bajo cada título.
-- Títulos en Lora bold navy; cuerpo en Work Sans.
-- Iconografía simple y propia (círculos numerados, checks, anillos concéntricos que hacen eco del logo) en vez de intentar imitar íconos de referencias externas.
-- Si el usuario trae una infografía de referencia (ej. de la competencia), usarla solo como inspiración de contenido/estructura — nunca clonar el layout literal, y siempre curar/resumir para que entre cómodo en un carrusel de Instagram.
+Probado el 2026-07-23: `gpt4o-image` (mismo modelo de kie.ai) sí puede renderizar texto en español de forma legible y prácticamente correcta si se le pasa el texto exacto en el prompt — mejor de lo esperado. Ese es ahora el camino por defecto (mismo pipeline que las fotos, `generarCarrusel.js`), no el motor HTML.
+
+- Pasar el texto **literal** de cada título/bullet/item en el prompt, no una descripción vaga del contenido.
+- Indicar la paleta en el prompt: fondo `#EAF1F8`, tarjetas blancas, acentos `#142B4F` (navy) y `#C31B6E` (magenta); tipografía serif elegante para títulos, sans-serif limpia para el cuerpo.
+- Pedir explícitamente "texto en español correcto, sin errores ortográficos" — igual puede haber algún error de tilde suelto (ej. "gluteo" por "glúteo"), revisar el resultado antes de darlo por bueno.
+- No pedirle que incluya el logo — se superpone después, como en las fotos.
+- Si el usuario trae una infografía de referencia (ej. de la competencia), usarla solo como referencia de estructura/layout en `filesUrl` — nunca para clonar el contenido, la marca o el logo ajeno, y siempre curar/resumir el contenido para que entre cómodo en un carrusel de Instagram.
+
+**Alternativa (motor HTML/Chrome, `generarInfografia.js`):** sigue disponible para cuando importe más tener texto 100% garantizado sin errores, edición instantánea sin gastar créditos, o los layouts estructurados ya armados (`portada`/`lista`/`cta`) alcancen. Estilo de ese motor: fondo claro, tarjetas blancas, barra de acento magenta bajo cada título, títulos en Lora bold navy, cuerpo en Work Sans, iconografía propia simple (círculos numerados, checks, anillos concéntricos que hacen eco del logo).
 
 ## Paleta de marca
 

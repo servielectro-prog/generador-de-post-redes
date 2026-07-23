@@ -22,7 +22,9 @@ Ver guía completa en [branding/estilo.md](branding/estilo.md). Resumen:
 
 ## Formatos de salida
 
-- **kie.ai** (fotos e infografías): cada slide se genera **una sola vez** en `2:3` (vertical), y de esa misma imagen se deriva localmente (con `sharp`) un recorte central `1:1` (cuadrado) — cubre Instagram y Facebook sin duplicar tiempo de espera ni arriesgar que ambas versiones se vean distintas entre sí. El recorte esta sesgado hacia arriba (`anclaVertical` por defecto 0.15, no 0.5) porque las caras suelen estar cerca del borde superior. El logo se superpone en una esquina de cada imagen.
+- **kie.ai — fotos**: cada slide se genera **una sola vez** en `2:3` (vertical), y de esa misma imagen se deriva localmente (con `sharp`) un recorte central `1:1` (cuadrado) — cubre Instagram y Facebook sin duplicar tiempo de espera ni arriesgar que ambas versiones se vean distintas entre sí. El recorte esta sesgado hacia arriba (`anclaVertical` por defecto 0.15, no 0.5) porque las caras suelen estar cerca del borde superior. Funciona porque en una foto hay un sujeto puntual que se puede recortar alrededor.
+- **kie.ai — infografías**: el recorte de arriba **no sirve** cuando el contenido ocupa todo el alto (título+texto+CTA) — corta contenido real. Para esto, el briefing lleva `"recorte": false`, y el `1:1` se genera como una llamada independiente a kie.ai (mismo prompt, `size:"1:1"`) en vez de recortar — el doble de costo/tiempo para esa slide, pero sin perder contenido.
+- El logo se superpone en una esquina de cada imagen en ambos casos.
 - **Motor HTML** (alternativa): se renderiza en `1080x1350` (4:5, tamaño recomendado de carrusel de Instagram). El logo va embebido en el header de cada slide (ya resuelto, transparente).
 
 ## Comandos

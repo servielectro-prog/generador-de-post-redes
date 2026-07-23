@@ -61,8 +61,17 @@ async function main() {
     const destinoVertical = path.join(carpetaSalida, `slide${numero}-2x3.png`);
     const destinoCuadrado = path.join(carpetaSalida, `slide${numero}-1x1.png`);
 
+    // "recorte: false" (por ejemplo en infografias, donde el contenido ocupa
+    // todo el alto) genera el 1:1 aparte en vez de recortarlo del 2:3, para
+    // no perder texto/contenido importante en el recorte.
+    const recorte = slide.recorte !== false && briefing.recorte !== false;
+
     await kieClient.generarImagen({ prompt: slide.prompt, filesUrl, size: "2:3" }, destinoVertical);
-    await logoOverlay.recortarCuadrado(destinoVertical, destinoCuadrado);
+    if (recorte) {
+      await logoOverlay.recortarCuadrado(destinoVertical, destinoCuadrado);
+    } else {
+      await kieClient.generarImagen({ prompt: slide.prompt, filesUrl, size: "1:1" }, destinoCuadrado);
+    }
 
     if (aplicarLogo) {
       await logoOverlay.aplicarLogo(destinoVertical);

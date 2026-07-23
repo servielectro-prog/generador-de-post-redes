@@ -26,22 +26,25 @@ El motor HTML (`src/infografia.js` + `node src/generarInfografia.js`) sigue anda
    - Aclarar que el texto debe estar en español correcto, sin errores ortográficos ni letras deformadas.
    - Aclarar que NO incluya ningún logo (se superpone aparte, como con las fotos).
 
-4. **Armar el briefing** en `briefings/<slug>.json`, igual que para fotos:
+4. **Armar el briefing** en `briefings/<slug>.json`, con `"recorte": false` (ver por qué abajo):
    ```json
    {
      "tema": "nombre del post",
      "referencias": ["inspiracion/<archivo-de-referencia>.png"],
+     "recorte": false,
      "slides": [
        { "prompt": "..." }
      ]
    }
    ```
 
-5. **Generar en background** (mismo tiempo que las fotos, ~5 min/slide, y mismo costo: ~6 créditos por imagen — chequear saldo con `GET https://api.kie.ai/api/v1/chat/credit` antes de tandas grandes):
+   **Importante — `"recorte": false` es obligatorio para infografías.** Por defecto (fotos), el pipeline genera una sola imagen en `2:3` y recorta un cuadrado `1:1` de ahí — funciona porque en una foto hay un sujeto que se puede recortar alrededor. En una infografía el contenido (título, texto, CTA) ocupa **todo** el alto de la imagen, así que ese mismo recorte corta contenido real (se probó y perdió el último ejercicio de una lista y la caja de CTA entera). Con `"recorte": false`, el pipeline genera el `1:1` como una llamada independiente a kie.ai con el mismo prompt (el modelo reacomoda el contenido para el cuadrado en vez de que se lo recorten) — cuesta el doble de créditos/tiempo para esa slide, pero es la única forma de no perder contenido.
+
+5. **Generar en background** (mismo tiempo que las fotos, ~5 min/slide — con `recorte:false` son ~10 min/slide porque genera las dos versiones —, ~6 créditos por imagen generada: chequear saldo con `GET https://api.kie.ai/api/v1/chat/credit` antes de tandas grandes):
    ```
    node src/generarCarrusel.js --briefing briefings/<archivo>.json
    ```
-   Esto ya genera el `2:3`, deriva el `1:1`, y aplica el logo automáticamente — no hace falta nada extra.
+   Esto ya genera el `2:3` y el `1:1` (recortado o independiente, según `recorte`) y aplica el logo automáticamente — no hace falta nada extra.
 
 6. **Mostrar los resultados** con Read y revisar el texto con cuidado (tildes, ortografía) antes de darlo por bueno — a diferencia del HTML, acá sí puede haber errores menores.
 

@@ -1,6 +1,7 @@
 {
   "tema": "Prevencion trocanteritis IA",
   "referencias": ["inspiracion/trocanteritis/competencia.png"],
+  "recorte": false,
   "slides": [
     {
       "prompt": "Crea una portada de infografia de salud en formato vertical para redes sociales, estilo profesional y limpio, inspirada en la estructura general de la imagen de referencia (encabezado, titulo grande, texto breve, ilustracion de apoyo), pero con esta identidad visual y este contenido exactos: fondo celeste muy claro (#EAF1F8), acentos en azul marino (#142B4F) y magenta (#C31B6E), tipografia serif elegante para el titulo y sans-serif limpia para el cuerpo. Titulo grande: \"Prevencion de la Trocanteritis\". Subtitulo: \"Protege tu cadera, mejora tu calidad de vida\". Texto breve debajo: \"Es la inflamacion de los tendones y bursas del gluteo en la parte lateral de la cadera. Con habitos simples y ejercicio terapeutico se puede prevenir.\" Incluye una ilustracion simple y elegante de una silueta de cadera/pelvis con la zona del trocanter mayor marcada en magenta, con la etiqueta \"Zona del trocanter mayor\". Todo el texto en espanol correcto, sin errores ortograficos ni letras deformadas. No incluyas ningun logo ni marca de la imagen de referencia."

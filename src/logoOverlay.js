@@ -82,15 +82,18 @@ async function aplicarLogo(rutaImagen) {
 }
 
 /**
- * Recorta el cuadrado central de una imagen (ej. para derivar 1:1 desde un 2:3).
+ * Recorta un cuadrado de una imagen (ej. para derivar 1:1 desde un 2:3).
  * @param {string} origen
  * @param {string} destino
+ * @param {number} anclaVertical 0 = pegado arriba, 0.5 = centrado, 1 = pegado abajo.
+ *   Por defecto sesgado hacia arriba: en fotos de personas la cara suele estar
+ *   cerca del borde superior, y hay mas margen de sobra abajo (piso, cuerpo).
  */
-async function recortarCuadrado(origen, destino) {
+async function recortarCuadrado(origen, destino, anclaVertical = 0.15) {
   const meta = await sharp(origen).metadata();
   const lado = Math.min(meta.width, meta.height);
   const left = Math.floor((meta.width - lado) / 2);
-  const top = Math.floor((meta.height - lado) / 2);
+  const top = Math.floor((meta.height - lado) * anclaVertical);
   await sharp(origen).extract({ left, top, width: lado, height: lado }).toFile(destino);
 }
 

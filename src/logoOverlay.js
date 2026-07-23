@@ -54,28 +54,30 @@ async function obtenerLogoTransparentePath() {
 }
 
 /**
- * Superpone branding/logo.png en la esquina inferior derecha de una imagen, in-place.
+ * Superpone branding/logo.png sobre una imagen, in-place.
  * @param {string} rutaImagen
+ * @param {{ancho?: number, left?: number, top?: number}} [opciones]
+ *   Por defecto: esquina inferior derecha, ancho LOGO_ANCHO. `left`/`top`
+ *   permiten elegir otra posicion (ej. un hueco libre entre dos elementos
+ *   en una infografia, donde el default taparia texto).
  */
-async function aplicarLogo(rutaImagen) {
+async function aplicarLogo(rutaImagen, opciones = {}) {
   if (!fs.existsSync(LOGO_PATH)) {
     throw new Error(`No se encontro el logo en ${LOGO_PATH}`);
   }
 
+  const ancho = opciones.ancho ?? LOGO_ANCHO;
   const logoTransparente = await logoConFondoTransparente();
-  const logoBuffer = await sharp(logoTransparente).resize({ width: LOGO_ANCHO }).toBuffer();
+  const logoBuffer = await sharp(logoTransparente).resize({ width: ancho }).toBuffer();
   const logoMeta = await sharp(logoBuffer).metadata();
   const imagenMeta = await sharp(rutaImagen).metadata();
 
+  const left = opciones.left ?? imagenMeta.width - logoMeta.width - MARGEN;
+  const top = opciones.top ?? imagenMeta.height - logoMeta.height - MARGEN;
+
   const destinoTemporal = `${rutaImagen}.tmp`;
   await sharp(rutaImagen)
-    .composite([
-      {
-        input: logoBuffer,
-        left: imagenMeta.width - logoMeta.width - MARGEN,
-        top: imagenMeta.height - logoMeta.height - MARGEN,
-      },
-    ])
+    .composite([{ input: logoBuffer, left, top }])
     .toFile(destinoTemporal);
 
   fs.renameSync(destinoTemporal, rutaImagen);

@@ -9,7 +9,9 @@ Flujo para posts con texto. Contexto completo en [CLAUDE.md](../../CLAUDE.md) y 
 
 ## Cómo se genera (actualizado 2026-07-23)
 
-Antes se armaba el diseño como HTML/CSS propio porque se asumía que kie.ai no iba a renderizar bien el texto. Se probó directo con `gpt4o-image` (mismo modelo que ya usamos para fotos) pasando el texto exacto en el prompt, y el resultado fue muy bueno — texto legible y correcto (con algún error de tilde ocasional, ej. "gluteo" en vez de "glúteo" — revisar el resultado antes de dar por bueno un texto largo), más una ilustración propia por sección generada en la misma imagen. Por eso ahora el camino por defecto es generar la infografía completa con kie.ai, con el **mismo pipeline que las fotos** (`src/generarCarrusel.js` — no hace falta código nuevo, el prompt es lo único que cambia).
+Antes se armaba el diseño como HTML/CSS propio porque se asumía que kie.ai no iba a renderizar bien el texto. Se probó directo con `gpt4o-image` (mismo modelo que ya usamos para fotos) pasando el texto exacto en el prompt, y el resultado fue muy bueno — texto legible, más una ilustración propia por sección generada en la misma imagen. Por eso ahora el camino por defecto es generar la infografía completa con kie.ai, con el **mismo pipeline que las fotos** (`src/generarCarrusel.js` — no hace falta código nuevo, el prompt es lo único que cambia).
+
+**Limitación conocida y aceptada, no marcar como pendiente:** el modelo le saca los acentos/tildes a todo el texto en español (ej. "gluteo" por "glúteo", "Prevencion" por "Prevención") de forma sistemática. El usuario ya lo vio y decidió (2026-07-23) aceptarlo así por ahora — no hace falta advertirlo cada vez ni intentar corregirlo, salvo que el usuario pida retomar el tema.
 
 El motor HTML (`src/infografia.js` + `node src/generarInfografia.js`) sigue andando y queda como alternativa para casos donde importe más tener el texto 100% exacto/editable sin gastar créditos ni esperar (ej. cambiar un typo sin regenerar toda la imagen), o si en algún pedido puntual la IA no da un buen resultado de texto.
 
@@ -23,7 +25,7 @@ El motor HTML (`src/infografia.js` + `node src/generarInfografia.js`) sigue anda
    - El texto exacto que tiene que aparecer (título, subtítulos, bullets/items con su copy completo) — cuanto más literal el texto en el prompt, mejor sale.
    - La paleta de marca: fondo `#EAF1F8`, acentos `#142B4F` (navy) y `#C31B6E` (magenta), tarjetas blancas.
    - Tipografía: serif elegante para títulos, sans-serif limpia para el cuerpo (se le describe el estilo, no hace falta nombrar Lora/Work Sans literalmente).
-   - Aclarar que el texto debe estar en español correcto, sin errores ortográficos ni letras deformadas.
+   - Pedir texto en español, sin letras deformadas (no hace falta insistir en las tildes — ver limitación conocida arriba).
    - Aclarar que NO incluya ningún logo (se superpone aparte, como con las fotos).
 
 4. **Armar el briefing** en `briefings/<slug>.json`, con `"recorte": false` (ver por qué abajo):
@@ -46,7 +48,7 @@ El motor HTML (`src/infografia.js` + `node src/generarInfografia.js`) sigue anda
    ```
    Esto ya genera el `2:3` y el `1:1` (recortado o independiente, según `recorte`) y aplica el logo automáticamente — no hace falta nada extra.
 
-6. **Mostrar los resultados** con Read y revisar el texto con cuidado (tildes, ortografía) antes de darlo por bueno — a diferencia del HTML, acá sí puede haber errores menores.
+6. **Mostrar los resultados** con Read.
 
 7. **Recordar siempre**: esto no publica nada en redes. El usuario sube los posts manualmente.
 

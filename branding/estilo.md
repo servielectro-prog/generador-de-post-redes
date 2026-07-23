@@ -21,7 +21,7 @@ Probado el 2026-07-23: `gpt4o-image` (mismo modelo de kie.ai) sí puede renderiz
 
 - Pasar el texto **literal** de cada título/bullet/item en el prompt, no una descripción vaga del contenido.
 - Indicar la paleta en el prompt: fondo `#EAF1F8`, tarjetas blancas, acentos `#142B4F` (navy) y `#C31B6E` (magenta); tipografía serif elegante para títulos, sans-serif limpia para el cuerpo.
-- Pedir explícitamente "texto en español correcto, sin errores ortográficos" — igual puede haber algún error de tilde suelto (ej. "gluteo" por "glúteo"), revisar el resultado antes de darlo por bueno.
+- **Limitación conocida y aceptada:** `gpt4o-image` le saca los acentos/tildes a todo el texto en español de forma sistemática (ej. "gluteo" en vez de "glúteo", "Prevencion" en vez de "Prevención") — se probó en varios carruseles completos y es consistente, no un error puntual. El usuario decidió (2026-07-23) aceptarlo así por ahora en vez de forzar más el prompt o cambiar de motor — no hace falta seguir marcándolo como pendiente ni insistir en arreglarlo, salvo que el usuario lo pida de nuevo.
 - No pedirle que incluya el logo — se superpone después, como en las fotos.
 - Si el usuario trae una infografía de referencia (ej. de la competencia), usarla solo como referencia de estructura/layout en `filesUrl` — nunca para clonar el contenido, la marca o el logo ajeno, y siempre curar/resumir el contenido para que entre cómodo en un carrusel de Instagram.
 
@@ -47,4 +47,4 @@ Lora (títulos) y Work Sans (cuerpo), vía Google Fonts. Se usan para el texto d
 
 ## Formatos
 
-Cada slide se genera en `2:3` (vertical) y se deriva un recorte `1:1` (cuadrado) en local. Al escribir los prompts, pensar la composición para que el sujeto/foco principal quede centrado verticalmente — así el recorte a cuadrado no corta lo importante.
+Cada slide se genera en `2:3` (vertical). Para **fotos** (un sujeto puntual), el `1:1` se deriva recortando localmente esa misma imagen — pensar la composición para que el sujeto/foco principal quede centrado verticalmente, así el recorte no corta lo importante. Para **infografías** (contenido que ocupa todo el alto: título+texto+CTA), el recorte se come contenido real — usar `"recorte": false` en el briefing para que el `1:1` se genere como llamada independiente a kie.ai en vez de recortarse.

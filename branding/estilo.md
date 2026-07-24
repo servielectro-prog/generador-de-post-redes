@@ -47,4 +47,8 @@ Lora (títulos) y Work Sans (cuerpo), vía Google Fonts. Se usan para el texto d
 
 ## Formatos
 
-Cada slide se genera en `2:3` (vertical). Para **fotos** (un sujeto puntual), el `1:1` se deriva recortando localmente esa misma imagen — pensar la composición para que el sujeto/foco principal quede centrado verticalmente, así el recorte no corta lo importante. Para **infografías** (contenido que ocupa todo el alto: título+texto+CTA), el recorte se come contenido real — usar `"recorte": false` en el briefing para que el `1:1` se genere como llamada independiente a kie.ai en vez de recortarse.
+**El `1:1` es el único formato realmente seguro para Instagram** (IG recorta solo cualquier imagen más alta que `4:5`, y nuestro `2:3` es más alto que eso — ver CLAUDE.md). El `2:3` sirve para Facebook o vista previa, no asumir que también sirve tal cual para IG.
+
+Para piezas pensadas para ambas redes: cada slide se genera en `2:3` y de ahí se deriva el `1:1`. Para **fotos** (un sujeto puntual), el `1:1` se deriva recortando localmente esa misma imagen — pensar la composición para que el sujeto/foco principal quede centrado verticalmente, así el recorte no corta lo importante. Para **infografías** (contenido que ocupa todo el alto: título+texto+CTA), el recorte se come contenido real — usar `"recorte": false` en el briefing para que el `1:1` se genere como llamada independiente a kie.ai en vez de recortarse.
+
+Para piezas pensadas **solo para Instagram**, generar directo en `1:1` sin pasar por `2:3` (más simple y barato).
